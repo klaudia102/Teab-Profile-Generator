@@ -14,11 +14,19 @@ const generateTeam = require("./src/page-template.js");
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
+const team = []
+
 const createManager = () => {
     return inquirer.prompt([
         {
+            type: "list",
+            name: "role",
+            message: "What is their role?",
+            choices: ['Manager', 'Engineer', 'Intern'],
+        },
+        {
             name: "name",
-            message: "What is Team Manager's name?",
+            message: "What is their name?",
         },
 
         {
@@ -34,6 +42,16 @@ const createManager = () => {
             message: "What is their office number?"
         },
     ])
+    .then((answers) => {
+        const newManager = new Manager(
+        answers.name,
+        answers.id,
+        answers.email,
+        answers.officeNumber
+    )
+    team.push(newManager)
+    })
+    
 }
 const chooseNextAction = () => {
     return inquirer.prompt([
@@ -46,23 +64,31 @@ const chooseNextAction = () => {
     ])
         .then((result) => {
             const nextAction = result.action
-            
+
             if (nextAction === 'Add an Engineer') {
                 return createEngineer()
+                .then(() => {
+                    return chooseNextAction()
+            })
             } else if (nextAction === 'Add an Intern') {
                 return createIntern()
-            } 
-        })
-        .then((employee) => {
-            if (employee) {
-                team.push(employee)
-                return chooseNextAction()
+                .then(() => {
+                    return chooseNextAction()
+            })
+            } else if (nextAction === 'Finish') {
+                return createTeam()
             }
         })
 }
 
 const createEngineer = () => {
     return inquirer.prompt([
+        {
+            type: "list",
+            name: "role",
+            message: "Confirm their role",
+            choices: ['Engineer','Manager', 'Intern'],
+        },
         {
             name: "name",
             message: "What is their name?",
@@ -81,10 +107,25 @@ const createEngineer = () => {
             message: "What is their GitHub Name?"
         },
     ])
+    .then ((answers) => {
+        const newEngineer = new Engineer(
+            answers.name,
+            answers.id,
+            answers.email,
+            answers.github
+        )
+        team.push(newEngineer)
+    })
 }
 
 const createIntern = () => {
     return inquirer.prompt([
+        {
+            type: "list",
+            name: "role",
+            message: "Confirm their role",
+            choices: [ 'Intern', 'Manager', 'Engineer'],
+        },
         {
             name: "name",
             message: "What is their name?",
@@ -103,18 +144,27 @@ const createIntern = () => {
             message: "What is their school name?"
         },
     ])
+    .then ((answers) => {
+        const newIntern = new Intern(
+            answers.name,
+            answers.id,
+            answers.email,
+            answers.school)
+
+        team.push(newIntern)
+    })
 }
 
-let team = []
+const createTeam = () => {
+    console.log(team)
+    return fs.writeFile("team.html", generateTeam(team), err => {
+            err ? console.error(err) : console.log('Success!')
+})
+}
+
 
 createManager()
-    .then((manager) => {
-        team.push(manager)
+    .then(() => {
         return chooseNextAction()
     })
-    .then(answers => {
-                fs.writeFile("team.html", generateTeam, err => {
-                    err ? console.error(err) : console.log('Success!')
-                })
-            })
 
