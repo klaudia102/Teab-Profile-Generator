@@ -22,7 +22,7 @@ const createManager = () => {
             type: "list",
             name: "role",
             message: "What is their role?",
-            choices: ['Manager', 'Engineer', 'Intern'],
+            choices: ['Manager'],
         },
         {
             name: "name",
@@ -87,7 +87,7 @@ const createEngineer = () => {
             type: "list",
             name: "role",
             message: "Confirm their role",
-            choices: ['Engineer','Manager', 'Intern'],
+            choices: ['Engineer'],
         },
         {
             name: "name",
@@ -103,7 +103,7 @@ const createEngineer = () => {
             message: "What is their email?"
         },
         {
-            name: "GitHubName",
+            name: "github",
             message: "What is their GitHub Name?"
         },
     ])
@@ -124,7 +124,7 @@ const createIntern = () => {
             type: "list",
             name: "role",
             message: "Confirm their role",
-            choices: [ 'Intern', 'Manager', 'Engineer'],
+            choices: [ 'Intern'],
         },
         {
             name: "name",
@@ -157,7 +157,7 @@ const createIntern = () => {
 
 const createTeam = () => {
     console.log(team)
-    return fs.writeFile("team.html", generateTeam(team), err => {
+    return fs.writeFile("./output/team.html", generateTeam(team), err => {
             err ? console.error(err) : console.log('Success!')
 })
 }
