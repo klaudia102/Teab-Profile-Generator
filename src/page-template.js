@@ -1,4 +1,6 @@
 // creates the team
+ const team = require('../index')
+
 const generateTeam = team => {
 
     // creates the manager html
@@ -78,6 +80,7 @@ const generateTeam = team => {
     return html.join("");
 
 }
+
 
 // exports function to generate entire page
 module.exports = team => {
