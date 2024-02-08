@@ -12,7 +12,7 @@ N/A
 ## Usage
 
 To use the application, the user should enter the 'node index.js' command in the terminal and answer the question. HTML file named 'team.html' will be created from the given answers. File is ready to be deployed.
-![screenshot](assets/images/Screenshot.png)
+![screenshot](./assets/images/Screenshot.png)
 
 
 ## Credits
